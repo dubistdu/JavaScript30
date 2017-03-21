@@ -59,6 +59,22 @@
 
 <script>
 
+   function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); //need to use backbracket `` because of template strings - ${}
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio)return;//stop the function from running all together
+    audio.currentTime = 0; //rewind to the start
+    audio.play();
+    key.classList.add('playing');
+  };
+
+function removeTransition(e) {
+  if(e.propertyName !== 'transform') return; //skip it if it's not a transform
+  this.classList.remove('playing');//if curious what 'this' is... check with console.log(this)
+}
+  const keys = document.querySelectorAll('.key'); //since it's an array, need to iterate thru each one. Can't just do addEventListener
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); //when the transition is ending, remove transition
+  window.addEventListener('keydown',playSound);
 </script>
 
 
