@@ -102,7 +102,7 @@
 
     // 5. Sort the inventors by years lived
 
-    const yearsLivedOrder = inventors.sort(function(firstPerson, secondPerson){
+    const yearsLivedOrder = inventors.sort((firstPerson, secondPerson) => {
       const lastInventor = firstPerson.passed - firstPerson.year;
       const nextInventor = secondPerson.passed - secondPerson.year;
       return lastInventor > nextInventor? 1:-1;
@@ -119,20 +119,25 @@
         //you can call querySelectorAll on any existing DOM element. Not just document
     // 'a' ---> looking for links  in here, all the blvd names are links. So we'll link through those filters (need to change this to array first)
     //(link => link.textContent) within that link we will just return textContent
-    const links = Array.from(category.querySelectorAll('a'));
-    const de = links
-               .map(link => link.textContent);
-               .flter(streetName => streetName.includes('de'));
-
-
-
+    // const links = Array.from(category.querySelectorAll('a'));
+    // const de = links
+    //            .map(link => link.textContent)
+    //            .filter(streetName => streetName.includes('de'));
+    //
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+    const byLastName = people.sort((firstPerson,secondPerson) => {
+      const[alast, afirst] = firstPerson.split(', ');
+      const[blast, bfirst] = secondPerson.split(', ');
+      return alast > blast? 1: -1;
+    });
+    console.log(byLastName);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    // const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    //  const sumCars =
+    //
 
   </script>
 </body>
