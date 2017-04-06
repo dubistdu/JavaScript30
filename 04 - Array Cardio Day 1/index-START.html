@@ -133,11 +133,31 @@
       return alast > blast? 1: -1;
     });
     console.log(byLastName);
+
+
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    // const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-    //  const sumCars =
-    //
+    // arr.reduce(callback, [initialValue])
+    // Prameters
+    /* callback
+      Function to execute on each element in the array, taking four arguments:
+
+    accumulator
+    The accumulator accumulates the callback's return values;
+    it is the accumulated value previously returned in the last invocation of the callback, or initialValue, if supplied
+    */
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+     const transportation = data.reduce(function(obj, item){
+       if(!obj[item]) {
+         obj[item] = 0;
+       }
+       obj[item]++;
+       return obj;
+
+     },{}); // {} -> start of blank obj
+
+     console.log(transportation);
+
 
   </script>
 </body>
