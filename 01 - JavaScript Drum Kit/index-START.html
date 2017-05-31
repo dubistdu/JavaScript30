@@ -7,7 +7,7 @@
 </head>
 <body>
 
-
+<!-- data-key =>  data attribute -->
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -67,12 +67,12 @@
     audio.play();
     key.classList.add('playing');
   };
-
+// (e)=> event
 function removeTransition(e) {
   if(e.propertyName !== 'transform') return; //skip it if it's not a transform
   this.classList.remove('playing');//if curious what 'this' is... check with console.log(this)
 }
-  const keys = document.querySelectorAll('.key'); //since it's an array, need to iterate thru each one. Can't just do addEventListener
+  const keys = document.querySelectorAll('.key'); //since it's (keys) an array, need to iterate thru each one. Can't just do addEventListener
   keys.forEach(key => key.addEventListener('transitionend', removeTransition)); //when the transition is ending, remove transition
   window.addEventListener('keydown',playSound);
 </script>
