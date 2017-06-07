@@ -17,18 +17,44 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 const cities = [];
+
+// the blob has to be converted from the raw data as it is into JSON
 fetch(endpoint)
   .then(blob => blob.json())
   .then(data => cities.push(...data));
+  // in console compare the difference between cities.push(data)) and cities.push(...data))
+  // '...' spread method in es6  Refer to around 5:03
+  //to make each individual items to go to city/ to change input array into individual argument => 'spread' into it -->
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    // here we need to figure out if the city or state matches what was searched
+    const regex = new RegExp(wordToMatch, 'gi');
+    // g=> global i=> case insensitive
+    return place.city.match(regex) || place.state.match(regex) // either match city or state
+    // you can do return place.city.match(/bos/i) for the cities that include words 'bos' but in here that's not
+    // the only citi names we are going to match. Hence need to use regex
 
-  function findMatches(wordToMatch, cities) {
-    return cities.filter(place => {
-      // here we need to figure out if the city or state matches what was searched
-      const regex = new RegExp(wordToMatch, 'gi');
-      return place.city.match(regex) || place.state.match(regex)
-    });
-  }
-  
+  });
+}
+
+function displayMatches(){
+  const matchArray = findMatches(this.value, cities);
+  console.log(matchArray);
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change',displayMatches); //going to listen change and when change happens display matches
+searchInput.addEventListener('keyup',displayMatches);
 </script>
   </body>
 </html>
+
+
+<!--
+ fetch() allows you to make network requests similar to XMLHttpRequest (XHR).
+ The main difference is that the Fetch API uses Promises, which enables a simpler and cleaner API,
+ avoiding callback hell and having to remember the complex API of XMLHttpRequest.
+
+  The RegExp constructor creates a regular expression object for matching text with a pattern -->
