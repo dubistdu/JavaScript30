@@ -37,9 +37,23 @@ function findMatches(wordToMatch, cities) {
   });
 }
 
+// for adding ',' to numbers
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+
 function displayMatches(){
   const matchArray = findMatches(this.value, cities);
-  console.log(matchArray);
+  const html = matchArray.map(place=>{
+    return `
+      <li>
+        <span class="name">${place.city}, ${place.state}</span>
+        <span class="population">${place.population}</span>
+      </li>
+      `;
+  });
+  suggestions.innerHTML = html;
 }
 
 const searchInput = document.querySelector('.search');
@@ -58,3 +72,6 @@ searchInput.addEventListener('keyup',displayMatches);
  avoiding callback hell and having to remember the complex API of XMLHttpRequest.
 
   The RegExp constructor creates a regular expression object for matching text with a pattern -->
+
+<!-- Get your data first!!!
+Then have functionality in place, then worry about hooking them up to even listeners as well as creating html we need -->
