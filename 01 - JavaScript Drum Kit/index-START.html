@@ -58,9 +58,7 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-    // window is the html portion of it - not a good idea to attach a function ot it. So.. Seprate
-    
-  window.addEventListener('keydown', function(e) {
+   function playsound(e) {
     // use data query selector instead of class since each data-key already has a unique value
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
     const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
@@ -68,7 +66,7 @@
     audio.currentTime = 0; //rewind to the start
     audio.play();
     key.classList.add('playing');
-  });
+  }
 
   function removeTransition(e) {
     if(e.propertyName !== 'transform') return; //skip it if it's not a transform
@@ -80,8 +78,9 @@
   
   const keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
+  // window is the html portion of it - not a good idea to attach a function ot it. So.. Seprate
+
+  window.addEventListener('keydown',playsound); //keydown is an existing event in js
 </script>
-
-
 </body>
 </html>
