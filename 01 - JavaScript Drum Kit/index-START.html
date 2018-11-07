@@ -58,23 +58,28 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-
-   function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); //need to use backbracket `` because of template strings - ${}
+    // window is the html portion of it - not a good idea to attach a function ot it. So.. Seprate
+    
+  window.addEventListener('keydown', function(e) {
+    // use data query selector instead of class since each data-key already has a unique value
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
     const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    if(!audio)return;//stop the function from running all together
+    if (!audio) return; //stops function from running all together
     audio.currentTime = 0; //rewind to the start
     audio.play();
     key.classList.add('playing');
-  };
-// (e)=> event
-function removeTransition(e) {
-  if(e.propertyName !== 'transform') return; //skip it if it's not a transform
-  this.classList.remove('playing');//if curious what 'this' is... check with console.log(this)
-}
-  const keys = document.querySelectorAll('.key'); //since it's (keys) an array, need to iterate thru each one. Can't just do addEventListener
-  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); //when the transition is ending, remove transition
-  window.addEventListener('keydown',playSound);
+  });
+
+  function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; //skip it if it's not a transform
+    this.classList.remove('playing') // this is basically a current object
+    //In JavaScript, ‘this’ normally refers to the object which ‘owns’ the method, but it depends on how a function is called
+    //If there’s no current object, ‘this’ refers to the global object. In a web browser, that’s ‘window’ — the top-level object which represents the document, 
+    //location, history and a few other useful properties and methods.
+  }
+  
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
 </script>
 
 
