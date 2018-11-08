@@ -5,9 +5,12 @@
   <title>Scoped CSS Variables and JS</title>
 </head>
 <body>
-  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
-
-  <div class="controls">
+  <h2>Update CSS Variables with <span class='h1'>JS</span></h2>
+<!-- sass variables doesn't change once compiled but css variables can be update with JS -->
+<!-- using data attibute. data-something -->
+<!-- The dataset property on the HTMLElement interface provides read/write access to all the custom data attributes (data-*)
+set on the element. This access is available both in HTML and within the DOM. -->
+<div class="controls">
     <label for="spacing">Spacing:</label>
     <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
 
@@ -22,14 +25,19 @@
 
   <style>
 
+
+/* declaring in root - root is the highest level like html */
+/* But do I always need to declare it? Seems to work without... */
   :root {
-    --base: #ffc600;
+    --base:red;
     --spacing: 10px;
-    --blur: 10px;
+    --blur: 0px;
   }
 
+ /* in js when passing a variable use var */
+ /* for variables...in sass it's $ but in css it's --   */
   img {
-    padding: var(--spacing);
+    padding: var(--spacing); 
     background: var(--base);
     filter: blur(var(--blur));
   }
@@ -65,10 +73,13 @@
   </style>
 
   <script>
+    // select input of all the controls
     const inputs = document.querySelectorAll('.controls input');
-
+    // dataset will make an object from anything with data flag
+    // we are making suffix function here since not all element has sizing
     function handleUpdate() {
-      const suffix = this.dataset.sizing || '';
+      const suffix = this.dataset.sizing || ''; //sizing from data-sizing  if there is no sizing, fall back on ''. If we leave it empty null will append instead. Not good.
+      console.log(suffix)
       document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
 
