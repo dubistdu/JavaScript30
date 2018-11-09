@@ -31,35 +31,34 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
-    const fifteen = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year < 1600));
-
-    console.table(fifteen);
+    
+    const bornInThe1500s = inventors.filter(inventor => (inventor.year >= 1500 && inventor.year < 1600));
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
-   const fullNames = inventors.map(inventor => (inventor.first + ' ' + inventor.last));
+    console.log(bornInThe1500s)
 
-   console.log(fullNames);
+    const fullName = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.log(fullName);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
     // the way sort work in js is that you take 2 items and it gets sorted between those 2 items by returning 1 and -1
+  
+    // How sort works
+    // That is what your function determines
 
-    const byBirthday = inventors.sort(function(firstPerson, secondPerson) {
-      if (firstPerson.year > secondPerson.year) {
-        return 1;
-      }
-      else {
-        return -1;
-      }
-    });
-     console.table(byBirthday);
+    // It is given two elements, call them`a` and`b`
+    // If you want to sort`a` to come before`b`, you return -1
+    // if you want to sort`a` to come * after * `b` you return `1`
+    // If they are the same, then you return `0`
+    // So lets say you were sort strings by their length
+
+    // The function given to`sort` just should behave that way.Returns - 1 if `a` comes before`b` based on whatever condition * you * want
+
+    const ordered = inventors.sort((a, b) => a.year > b.year ? 1 : -1);
 
      //ternary
 
-
-     const byBirthdayShort = inventors.sort((firstPerson, secondPerson) => firstPerson.year > secondPerson.year? 1:-1);
-     console.table(byBirthdayShort);
 
 
     /*  f => f is the identity function. It simply returns the argument that was passed in.
@@ -93,37 +92,45 @@
     // The reduce() method applies a function against an accumulator and each element in the array (from left to right) to reduce it to a single value.
 
     // 4. How many years did all the inventors live?
+       const totalYears = inventors.reduce((total, inventor) => {
+          return total + (inventor.passed - inventor.year);
+        }, 0); // "0" added in because first time around there is no total so it can fall back on "0" where total is needed. 
 
-    const totalYearsLived = inventors.reduce((total, inventor) => {
-      return total + (inventor.passed - inventor.year);
-    }, 0);
-
+    // const yearsLived = inventors.map (inventor => (inventor.passed - inventor.year))
+    // const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    // const totalYearsLived = yearsLived.reduce(reducer);
     console.log(totalYearsLived);
 
     // 5. Sort the inventors by years lived
 
-    const yearsLivedOrder = inventors.sort((firstPerson, secondPerson) => {
-      const lastInventor = firstPerson.passed - firstPerson.year;
-      const nextInventor = secondPerson.passed - secondPerson.year;
-      return lastInventor > nextInventor? 1:-1;
+    const oldest = inventors.sort((firstInventor,secondInventor) => {
+      const previousInventor = firstInventor.passed - firstInventor.year;
+      const nextInventor = secondInventor.passed - secondInventor.year;
+      return previousInventor > nextInventor ? 1 : -1;
     })
-
     console.table(yearsLivedOrder);
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
     //first, need to get DOM element out of the page using document.querySelector...but we don't know what to select
     //get dev tool out and inspect whatever contains Boulevards of... in here.. it's mw-category
-
     const category = document.querySelector('.mw-category');
         //you can call querySelectorAll on any existing DOM element. Not just document
     // 'a' ---> looking for links  in here, all the blvd names are links. So we'll link through those filters (need to change this to array first)
     //(link => link.textContent) within that link we will just return textContent
-    // const links = Array.from(category.querySelectorAll('a'));
-    // const de = links
-    //            .map(link => link.textContent)
-    //            .filter(streetName => streetName.includes('de'));
-    //
+    // video 14:39
+    //const links = category.querySelectorAll('a'); // this does not return an array. It returns a Node List.
+    // There are two ways to turn Nodelist to an array
+    // enclose in Array or use [...] spread
+    // 1. enclose in Array
+    const links = Array.from(category.querySelectorAll('a'));
+    // 2. use spread ... operator
+    // const links =[...category.querySelectorAll('a')];
+    const de = links
+               .map(link => link.textContent)
+               .filter(streetName => streetName.includes('de'));
+    
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
