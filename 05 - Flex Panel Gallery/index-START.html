@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Flex Panels 💪</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
 </head>
+
 <body>
   <style>
     html {
       box-sizing: border-box;
-      background:#ffc600;
-      font-family:'helvetica neue';
+      background: #ffc600;
+      font-family: 'helvetica neue';
       font-size: 20px;
       font-weight: 200;
     }
+
     body {
       margin: 0;
     }
-    *, *:before, *:after {
+
+    *,
+    *:before,
+    *:after {
       box-sizing: inherit;
     }
 
     .panels {
-      min-height:100vh;
+      min-height: 100vh;
       overflow: hidden;
-      display: flex;
+      /* add flex to the parent of contents that needs even distribution of space */
+      display: flex; 
     }
 
-/*flex item(child) also can be a flex container */
     .panel {
-      background:#6B0F9C;
-      box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
-      color:white;
+      background: #6B0F9C;
+      box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.1);
+      color: white;
       text-align: center;
-      align-items: center;
+      align-items: center; 
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
-        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
-        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
+        flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
         background 0.2s;
       font-size: 20px;
-      background-size:cover;
-      background-position:center;
+      background-size: cover;
+      background-position: center;
+      /* even distribution */
       flex: 1;
       justify-content: center;
       align-items: center;
@@ -50,46 +57,61 @@
       flex-direction: column;
     }
 
+    .panel1 {
+      background-image: url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500);
+    }
 
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/1CD3fd8kHnE/1500x1500); }
-    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel2 {
+      background-image: url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500);
+    }
 
-    /*Flex items (Children)*/
+    .panel3 {
+      background-image: url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d);
+    }
 
-    .panel > * {
-      margin:0;
+    .panel4 {
+      background-image: url(https://source.unsplash.com/ITjiVXcwVng/1500x1500);
+    }
+
+    .panel5 {
+      background-image: url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500);
+    }
+
+    /* Flex Children (Flex items)*/
+    .panel>* {
+      margin: 0;
       width: 100%;
-      transition:transform 0.5s;
-      border: 1px solid red;
+      transition: transform 0.5s;
       flex: 1 0 auto;
       display: flex;
       justify-content: center;
-      align-items: center;
+
     }
 
-    .panel > *:first-child { transform: translateY(-100%); }
-    /*^^ each of the first child transform will be Y -100%*/
+/* for animation purpose later - set default to off the frame first */
+/* any panel with .panel.open-active class will animate in and out Y direction */
+    .panel > *:first-child { transform: translateY(-100%); } 
     .panel.open-active > *:first-child { transform: translateY(0); }
     .panel > *:last-child { transform: translateY(100%); }
     .panel.open-active > *:last-child { transform: translateY(0); }
+
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
-      text-shadow:0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
+
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
+
     .panel.open {
-      font-size:40px;
+      font-size: 40px;
+     /* if a panel has open class, it will use transition to take 5 times more room than default flex1  */
       flex: 5;
     }
-   /*animation, transition, happens because of 'transition' that is applied on panel class*/
   </style>
 
 
@@ -121,32 +143,32 @@
     </div>
   </div>
 
+
+
   <script>
-// 1.grab all the panels
-  const panels = document.querySelectorAll('.panel');
-  // make sure it's panel not panels. We are listening individual panel not panels
-    function toggleOpen(){
-      console.log('Hello');
+  // select all with the 'panel' class 
+    const panels = document.querySelectorAll('.panel')
+  
+    function toggleOpen() {
       this.classList.toggle('open');
     }
 
     function toggleActive(e) {
-      console.log(e.propertyName);
-      if (e.propertyName.includes('flex')) {
-        this.classList.toggle('open-active');
+        console.log(e.propertyName);
+        // if properrty name include flex, then it will toggle 'open-active'
+        if (e.propertyName.includes('flex')) {
+          this.classList.toggle('open-active');
+        }
       }
-    // ^^^ This happens at the end of the .panel.open event. When it's 'open', two properties gets affected
-    // font size and flex. But one really matters here is flex. That is why => e.propertyName.includes('flex')
-    // So when event propertyName includes 'flex', it toggles 'open-active'
-
-    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
-    // toggleOpen not toggleOpen() because we are not running the fuction, instead saying.. on click
-    // find toggleOpen function
-    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
-    // at the end('transitionend') of the event we'll listen toggleActive function
+  // listen to a 'click' on each panel
+  // when 'click' happens, add 'oepn' class by passing toggleOpen-->
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen()));
+  // after toggle open, transitionend will fire, then it will go with toggleActive function that will toggle 'open-active'  
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive()));
   </script>
 
 
 
 </body>
+
 </html>
