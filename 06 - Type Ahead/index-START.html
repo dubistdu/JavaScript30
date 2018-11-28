@@ -18,27 +18,43 @@
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 const cities = [];
 
-// the blob has to be converted from the raw data as it is into JSON
+// fetch calls "promise". Instead of data, it returns something called "promise" - raw data
+// the blob - raw data has to be converted from the raw data as it is into JSON
+
+// in console compare the difference between cities.push(data)) and cities.push(...data))
+// '...' spread method in es6  Refer to around 5:03
+// in here push will create nested array since it will be pushing an array into an array. `...` spread operator will concatenate instead 
+// instead of const cities, 'let' can be used 
+
+// let cities = [];
+// fetch(endpoint)
+//     .then(blob => blob.json())
+//     .then(data => cities = data);
+//but if you want to use const variable, use speread operator as following
+
 fetch(endpoint)
   .then(blob => blob.json())
   .then(data => cities.push(...data));
-  // in console compare the difference between cities.push(data)) and cities.push(...data))
-  // '...' spread method in es6  Refer to around 5:03
-  //to make each individual items to go to city/ to change input array into individual argument => 'spread' into it -->
+ 
 function findMatches(wordToMatch, cities) {
   return cities.filter(place => {
     // here we need to figure out if the city or state matches what was searched
+    // you can do return place.city.match(/bos/i) for the cities that include words 'bos' but in here that's not
+    // the only citi names we are going to match. Hence need to use RegEx
+    // to return result, we need to match word but wordToMatch is a variable
+    // return place.city.match(/wordToMatch/i) won't work since it will actually try to find cicty (word) that matcheds "wordToMatch"
+    // so, how do you use regext to match a variable?!
+    // need to make regex outside of the syntax, save it as a variable and pass it. 
     const regex = new RegExp(wordToMatch, 'gi');
     // g=> global i=> case insensitive
     return place.city.match(regex) || place.state.match(regex) // either match city or state
-    // you can do return place.city.match(/bos/i) for the cities that include words 'bos' but in here that's not
-    // the only citi names we are going to match. Hence need to use regex
+   
 
   });
 }
 
-// for adding ',' to numbers
-function numberWithCommas(x) {
+// function for for adding ',' to numbers
+const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
@@ -46,8 +62,8 @@ function numberWithCommas(x) {
 function displayMatches(){
   const matchArray = findMatches(this.value, cities);
   const html = matchArray.map(place=>{
-    const regex = new RegExp(this.value, 'gi');
-    // replace values with "hl" (hi light)
+    const regex = new RegExp(this.value, 'gi'); // this.value => what user searched for
+    // find the matches in regex, and replace regex with <span class="hl"
     const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
     const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
     return `
@@ -60,11 +76,13 @@ function displayMatches(){
   suggestions.innerHTML = html;
 }
 
-const searchInput = document.querySelector('.search');
-const suggestions = document.querySelector('.suggestions');
+const searchInput = document.querySelector('.search'); //search input
+const suggestions = document.querySelector('.suggestions'); // search suggestion
 
-searchInput.addEventListener('change',displayMatches); //going to listen change and when change happens display matches
-searchInput.addEventListener('keyup',displayMatches);
+searchInput.addEventListener('change',displayMatches); //going to listen change and when change happens "display matches" function passes
+searchInput.addEventListener('keyup',displayMatches); // The keyup event is fired when a key is released.
+
+
 </script>
   </body>
 </html>
