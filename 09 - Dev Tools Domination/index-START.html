@@ -17,30 +17,81 @@
       p.style.fontSize = '50px';
     }
 
+    // Inspect element with js
+    // Go to inspected element -> right click -> break on attribute modifications
+    // It will tell you where break point is
+
+
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log('Hello I am a %s string!', '💩');
 
     // Styled
+    // console.log('%c I am some great text', 'font-size:50px; background:red; text-shadow: 10px 10px 0 blue')
 
     // warning!
+    console.warn('OH NOOO');
 
     // Error :|
+    // this will also show stack trace of where that error was
+    console.error('shit!');
 
     // Info
-
+    console.info('here is some usefull info');
     // Testing
+    console.assert(1 == 1, 'that’s wrong!');
+    console.assert(1 == 2, 'that’s wrong!');
+    //if value is true, it returns nothing, if value is wrong, then it returns a message
+    //real life usage/example
+    const p = document.querySelector('p');
+    console.assert(p.classList.contains('ouch'), 'WRONG!');
+   // ^^^ check if ‘p’ contains ‘ouch’. If not, return ‘WRONG’
 
     // clearing
+    console.clear();
+    //cmd + k
 
     // Viewing DOM Elements
+    //this shows element
+    console.log(p);
+    //locate and show the actual directory and details of 'p' element
+    console.dir(p)
 
     // Grouping together
+    dogs.forEach(dog => {
+      //collapses group on console 
+      console.groupCollapsed(`${dog.name}`); 
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    });
 
-    // counting
+    //counting
+    //occurence
+    console.count('wes')
+    console.count('wes')
+    console.count('jas')
+    console.count('wes')
+    console.count('wes')
+    console.count('wes')
+    console.count('jas')
+    console.count('wes')
 
     // timing
-
+    // how long something tases
+    console.time('fetching data');
+    fetch('https://api.github.com/users/dubistdu')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      });
+    
+//table view of result data
+console.table(dogs);
   </script>
 </body>
 </html>

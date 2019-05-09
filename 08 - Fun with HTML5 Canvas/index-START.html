@@ -15,12 +15,17 @@
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.lineWidth = 50;
+
+  //google global compsite operation...read and play around with it
+  ctx.globalCompositeOperation = 'multiply';
   // ctx.strokeStyle = "#DA70D6";
 
 let isDrawing = false; //'cause someone needs to actively draw
 let lastX = 0; // starting point 
 let lastY = 0; // starting point 
 let hue = 0;
+let direction = true;
+
 
 function draw(e) {
   if(!isDrawing) return; //stop the function from running when they are not moused down (when not actively drawing)
@@ -40,7 +45,7 @@ function draw(e) {
   }
 
 // if brush stroke is bigger than 100 or less than 1, flipt the direction
-  if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+  if(ctx.lineWidth >= 50 || ctx.lineWidth <= 1) {
     direction = !direction;
   }
 
